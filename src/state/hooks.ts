@@ -22,6 +22,9 @@ import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
 import { fetchPrices } from './prices'
 
+const ZERO = new BigNumber(0)
+
+
 export const useFetchPublicData = () => {
   const dispatch = useDispatch()
   const { slowRefresh } = useRefresh()
@@ -41,6 +44,21 @@ export const useFetchPublicData = () => {
   }, [dispatch])
 }
 
+export const usePriceEthBusd = (): BigNumber => {
+  // const pid = 14 // ETH-BNB LP
+  // const bnbPriceUSD = usePriceBnbBusd()
+  // const farm = useFarmFromPid(pid)
+  // return farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
+  return ZERO;
+}
+
+
+export const usePriceBnbBusd = (): BigNumber => {
+  const pid = 1 // BUSD-BNB LP
+  // const farm = useFarmFromPid(pid)
+  // return farm.tokenPriceVsQuote ? new BigNumber(1).div(farm.tokenPriceVsQuote) : ZERO
+  return ZERO;
+}
 // Farms
 
 export const useFarms = (): Farm[] => {
@@ -201,7 +219,7 @@ export const useGetApiPrice = (token: string) => {
 }
 
 export const usePriceCakeBusd = (): BigNumber => {
-  const ZERO = new BigNumber(0)
+  // const ZERO = new BigNumber(0)
   const cakeBnbFarm = useFarmFromPid(1)
   const bnbBusdFarm = useFarmFromPid(2)
 

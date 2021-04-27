@@ -22,7 +22,18 @@ export interface Ifo {
   releaseBlockNumber: number
   campaignId?: string
 }
-
+export enum QuoteToken {
+  'BNB' = 'BNB',
+  'CAKE' = 'CAKE',
+  'SYRUP' = 'SYRUP',
+  'BUSD' = 'BUSD',
+  'TWT' = 'TWT',
+  'UST' = 'UST',
+  'ETH' = 'ETH',
+  'COMP' = 'COMP',
+  'SUSHI' = 'SUSHI',
+  'TPT' = 'TPT',
+}
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
@@ -47,6 +58,10 @@ export interface FarmConfig {
   lpAddresses: Address
   token: Token
   quoteToken: Token
+  tokenSymbol: string
+  tokenAddresses: Address
+  quoteTokenSymbol: QuoteToken
+  quoteTokenAdresses: Address
   multiplier?: string
   isCommunity?: boolean
   dual?: {

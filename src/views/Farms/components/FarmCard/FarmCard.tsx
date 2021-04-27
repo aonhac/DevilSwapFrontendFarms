@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
 import { Flex, Text, Skeleton } from '@dragonsswap/uikit'
@@ -7,6 +7,7 @@ import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
 import useI18n from 'hooks/useI18n'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
+import { QuoteToken } from 'config/constants/types'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import DetailsSection from './DetailsSection'
@@ -14,8 +15,9 @@ import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
 import ApyButton from './ApyButton'
 
+
 export interface FarmWithStakedValue extends Farm {
-  apy?: number
+  apy?: BigNumber
   liquidity?: BigNumber
 }
 
@@ -87,44 +89,64 @@ interface FarmCardProps {
   farm: FarmWithStakedValue
   removed: boolean
   cakePrice?: BigNumber
+  bnbPrice?: BigNumber
+  ethPrice?: BigNumber
   provider?: ProviderType
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, account }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethPrice, account }) => {
   const TranslateString = useI18n()
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const isCommunityFarm = communityFarms.includes(farm.token.symbol)
+  const isCommunityFarm = communityFarms.includes(farm.tokenSymbol)
   // We assume the token name is coin pair + lp e.g. CAKE-BNB LP, LINK-BNB LP,
   // NAR-CAKE LP. The images should be cake-bnb.svg, link-bnb.svg, nar-cake.svg
   const farmImage = farm.lpSymbol.split(' ')[0].toLocaleLowerCase()
 
-  const totalValueFormated = farm.liquidity
-    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+  const totalValue: BigNumber = useMemo(() => {
+    if (!farm.lpTotalInQuoteToken) {
+      return null
+    }
+    if (farm.quoteTokenSymbol === QuoteToken.BNB) {
+      return bnbPrice.times(farm.lpTotalInQuoteToken)
+    }
+    if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+      return cakePrice.times(farm.lpTotalInQuoteToken)
+    }
+    if (farm.quoteTokenSymbol === QuoteToken.ETH) {
+      return ethPrice.times(farm.lpTotalInQuoteToken)
+    }
+    return farm.lpTotalInQuoteToken
+  }, [bnbPrice, cakePrice, ethPrice, farm.lpTotalInQuoteToken, farm.quoteTokenSymbol])
+
+  const totalValueFormated = totalValue
+    ? `$${Number(totalValue).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : '-'
 
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('DevilsSwap', '')
-  const earnLabel = farm.dual ? farm.dual.earnLabel : 'DDRGN'
+  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
+  const earnLabel = farm.dual ? farm.dual.earnLabel : 'CAKE'
 
-  const farmAPY = farm.apy && farm.apy.toLocaleString('en-US', { maximumFractionDigits: 2 })
+  const farmAPY =
+    farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString('en-US', { maximumFractionDigits: 2 })
 
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAddress: farm.quoteToken.address,
-    tokenAddress: farm.token.address,
-  })
+  const { quoteTokenAdresses, tokenAddresses } = farm
+  const quoteTokenAddress : any = quoteTokenAdresses;
+  const tokenAddress : any = tokenAddresses;
+
+  const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAddress, tokenAddress })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
 
   return (
     <FCard>
-      {farm.token.symbol === 'CAKE' && <StyledCardAccent />}
+      {farm.tokenSymbol === 'CAKE' && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
         multiplier={farm.multiplier}
         isCommunityFarm={isCommunityFarm}
         farmImage={farmImage}
-        tokenSymbol={farm.token.symbol}
+        tokenSymbol={farm.tokenSymbol}
       />
       {!removed && (
         <Flex justifyContent="space-between" alignItems="center">

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ApyButton from 'views/Farms/components/FarmCard/ApyButton'
-import { Address } from 'config/constants/types'
+import { Address, QuoteToken } from 'config/constants/types'
 import BigNumber from 'bignumber.js'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
@@ -11,10 +11,11 @@ export interface AprProps {
   value: string
   multiplier: string
   lpLabel: string
-  tokenAddress?: Address
-  quoteTokenAddress?: Address
+  quoteTokenAdresses: Address
+  quoteTokenSymbol: QuoteToken
+  tokenAddresses: Address
   cakePrice: BigNumber
-  originalValue: number
+  originalValue: BigNumber
   hideButton?: boolean
 }
 
@@ -43,13 +44,16 @@ const AprWrapper = styled.div`
 const Apr: React.FC<AprProps> = ({
   value,
   lpLabel,
-  tokenAddress,
-  quoteTokenAddress,
+  quoteTokenAdresses,
+  tokenAddresses,
   cakePrice,
   originalValue,
   hideButton = false,
 }) => {
   const TranslateString = useI18n()
+  const quoteTokenAddress : any = quoteTokenAdresses;
+  const tokenAddress : any = tokenAddresses;
+
   const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAddress, tokenAddress })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
   return (

@@ -43,4 +43,8 @@ export default {
     56: '0xFee8A195570a18461146F401d6033f5ab3380849',
     97: '0x7b7b1583De1DeB32Ce6605F6deEbF24A0671c17C',
   },
+  wbnb: {
+    97: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+    56: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+  },
 }
