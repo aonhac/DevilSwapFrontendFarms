@@ -12,11 +12,11 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'Exchange',
-        href: 'https://exchange.devilsswap.com/',
+        href: 'https://exchange.pancakeswap.com/',
       },
       {
         label: 'Liquidity',
-        href: 'https://exchange.devilsswap.com//#/pool',
+        href: 'https://exchange.pancakeswap.com//#/pool',
       },
     ],
   },
