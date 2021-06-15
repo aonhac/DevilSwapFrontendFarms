@@ -6,16 +6,16 @@ const tokens = {
   dragon: {
     symbol: 'DDRGN',
     address: {
-      56: '0x0b2F2e88Ba3E62447E914C38947CCB83e2cE6d01',
-      97: '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
+      56: '0x9adBa9e0Ebc1a967A9e9aDcF22ad6979f582cd57',
+      97: '0x9adBa9e0Ebc1a967A9e9aDcF22ad6979f582cd57',
     },
     decimals: 18,
     projectLink: 'https://devilsswap.com',
   },
   dragongold: {
-    symbol: 'DDGLD',
+    symbol: 'DGOLD',
     address: {
-      56: '0xE42c587F5B0f5465F5DdeE507d6dB281FCEaaDee',
+      56: '0x8458Dd8A6e0A75b38e78078D99F224bA819A17BA',
       97: '',
     },
     decimals: 18,
@@ -38,6 +38,24 @@ const tokens = {
     },
     decimals: 18,
     projectLink: 'https://ankr.com',
+  },
+  busd: {
+    symbol: 'BUSD',
+    address: {
+      56: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+      97: '',
+    },
+    decimals: 18,
+    projectLink: '',
+  },
+  eth: {
+    symbol: 'ETH Token',
+    address: {
+      56: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+      97: '',
+    },
+    decimals: 18,
+    projectLink: '',
   }
 }
 

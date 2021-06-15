@@ -7,8 +7,8 @@ const pools: PoolConfig[] = [
     stakingToken: tokens.dragon,
     earningToken: tokens.dragon,
     contractAddress: {
-      97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
-      56: '0xbA565c2a584d031Fd2cB105d90a3C480f8578F31',
+      97: '0xc446115329aC464AFdab845d6D86ca04BE49e856',
+      56: '0xc446115329aC464AFdab845d6D86ca04BE49e856',
     },
     poolCategory: PoolCategory.CORE,
     harvest: true,

@@ -58,8 +58,10 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
   const { onReward } = useSousHarvest(sousId, isBnbPool)
 
   // APY
-  const rewardTokenPrice = useGetApiPrice(earningToken.symbol)
-  const stakingTokenPrice = useGetApiPrice(stakingToken.symbol)
+  // const rewardTokenPrice = useGetApiPrice(earningToken.symbol)
+  // const stakingTokenPrice = useGetApiPrice(stakingToken.symbol)
+  const rewardTokenPrice = 0.001
+  const stakingTokenPrice =0.001
   const apy = getPoolApy(
     stakingTokenPrice,
     rewardTokenPrice,

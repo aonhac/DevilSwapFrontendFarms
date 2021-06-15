@@ -36,7 +36,7 @@ const Coming: React.FC = () => {
 
   return (
     <Card>
-      <div style={{ padding: '24px' }}>
+      {/* <div style={{ padding: '24px' }}>
         <CardTitle>
           {TranslateString(414, 'Your Project?')}{' '}
           <span role="img" aria-label="eyes">
@@ -72,7 +72,7 @@ const Coming: React.FC = () => {
       </div>
       <Footer>
         <CommunityTag />
-      </Footer>
+      </Footer> */}
     </Card>
   )
 }

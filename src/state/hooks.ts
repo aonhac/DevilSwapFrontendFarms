@@ -21,6 +21,7 @@ import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
 import { fetchPrices } from './prices'
+import { QuoteToken } from '../config/constants/types'
 
 const ZERO = new BigNumber(0)
 
@@ -45,19 +46,20 @@ export const useFetchPublicData = () => {
 }
 
 export const usePriceEthBusd = (): BigNumber => {
-  // const pid = 14 // ETH-BNB LP
-  // const bnbPriceUSD = usePriceBnbBusd()
-  // const farm = useFarmFromPid(pid)
-  // return farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
-  return ZERO;
+  const pid = 4 // ETH-BNB LP
+  const bnbPriceUSD = usePriceBnbBusd()
+  const farm = useFarmFromPid(pid)
+  return farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
 }
 
 
 export const usePriceBnbBusd = (): BigNumber => {
-  const pid = 1 // BUSD-BNB LP
-  // const farm = useFarmFromPid(pid)
-  // return farm.tokenPriceVsQuote ? new BigNumber(1).div(farm.tokenPriceVsQuote) : ZERO
-  return ZERO;
+  const pid = 3 // BUSD-BNB LP
+  const farm = useFarmFromPid(pid)
+  const FOUR100 = new BigNumber(400)
+  // return farm.tokenPriceVsQuote ? new BigNumber(1).div(farm.tokenPriceVsQuote) : FOUR100
+  return FOUR100
+
 }
 // Farms
 
@@ -219,17 +221,37 @@ export const useGetApiPrice = (token: string) => {
 }
 
 export const usePriceCakeBusd = (): BigNumber => {
-  // const ZERO = new BigNumber(0)
-  const cakeBnbFarm = useFarmFromPid(1)
-  const bnbBusdFarm = useFarmFromPid(2)
+  const pid = 1 // DDRGN-BNB LP
+  const bnbPriceUSD = usePriceBnbBusd()
+  const farm = useFarmFromPid(pid)
+  const ZERO1 = new BigNumber(0.001)
+  return farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO1
 
-  const bnbBusdPrice = ZERO
-  const cakeBusdPrice = ZERO
-
-  return cakeBusdPrice
 }
 
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block)
+}
+
+export const useTotalValue = (): BigNumber => {
+  const farms = useFarms()
+  const bnbPrice = usePriceBnbBusd()
+  const cakePrice = usePriceCakeBusd()
+  let value = new BigNumber(0)
+  for (let i = 0; i < farms.length; i++) {
+    const farm = farms[i]
+    if (farm.lpTotalInQuoteToken) {
+      let val;
+      if (farm.quoteTokenSymbol === QuoteToken.BNB) {
+        val = bnbPrice.times(farm.lpTotalInQuoteToken)
+      } else if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
+        val = cakePrice.times(farm.lpTotalInQuoteToken)
+      } else {
+        val = farm.lpTotalInQuoteToken
+      }
+      value = value.plus(val)
+    }
+  }
+  return value
 }
