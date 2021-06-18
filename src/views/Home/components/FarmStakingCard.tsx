@@ -70,7 +70,7 @@ const FarmedStakingCard = () => {
           params: {
             type: 'ERC20',
             options: {
-              address: '0x0b2F2e88Ba3E62447E914C38947CCB83e2cE6d01',
+              address: '0x9adBa9e0Ebc1a967A9e9aDcF22ad6979f582cd57',
               symbol: 'DDRGN',
               decimals: '18',
               image:
