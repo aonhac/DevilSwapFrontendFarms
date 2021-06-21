@@ -117,7 +117,7 @@ const Farms: React.FC = () => {
   const cakePrice = usePriceCakeBusd()
   const bnbPrice = usePriceBnbBusd()
   const [query, setQuery] = useState('')
-  const [viewMode, setViewMode] = useState(ViewMode.TABLE)
+  const [viewMode, setViewMode] = useState(ViewMode.CARD)
   const ethPriceUsd = usePriceEthBusd()
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
