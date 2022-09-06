@@ -42,7 +42,7 @@ export enum PoolCategory {
 
 export interface Address {
   97?: string
-  56: string
+  97: string
 }
 
 export interface Token {
